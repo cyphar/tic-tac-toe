@@ -91,7 +91,7 @@ char getch_(int echo)
 
 int cyrand(unsigned int min, unsigned int max) { 
 	/* Adapted from http://bit.ly/12Q9eQT */
-	
+	if(min == max) return min;	
 	/* seed the random */
 	srand(time(NULL));
 	int base_random = rand(); /* in [0, RAND_MAX] */
@@ -409,8 +409,8 @@ void compmove(enum value ai) {
 	else if(thegame.board[4].state == NONE) pos = 4; /* Always go for the centre square, if you can't block off the player or win */
 	else {
 		int min = 8, max = 0;
-		for(int i = 0; i < 9; i++) if(thegame.board[i].state == NONE) max = i;
-		for(int i = 8; i >= 0; i--) if(thegame.board[i].state == NONE) min = i;
+		for(int i = 0; i < 9; i++) if(thegame.board[i].state == NONE) max = i; /* Dial down the random range ... */
+		for(int i = 8; i >= 0; i--) if(thegame.board[i].state == NONE) min = i; /* ... to make it more efficient */
 		while(thegame.board[(pos = cyrand(min,max))].state != NONE);
 	}
 	
