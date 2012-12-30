@@ -447,5 +447,5 @@ void printwinner(void) {
 		}
 	} while(lowerch(yn) != 'y' && lowerch(yn) != 'n');
 
-	if(yn == 'y') thegame.restart= true;
+	if(lowerch(yn) == 'y') thegame.restart= true;
 } /* printwinner() */
