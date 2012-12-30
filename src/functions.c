@@ -120,6 +120,10 @@ void clearscr(void) {
 	printf("\e[1;1H\e[2J");
 } /* clearscr() */
 
+void inflush(void) {
+	while(getchar() != '\n');
+}
+
 void bake_args(int argc, char *argv[]) {
 	char ch;
 	int longindex;
@@ -171,8 +175,8 @@ void initgame(void) {
 	do {
 		printf("How many players? ");
 		if(!nocr) {
-			scanf("%d", &thegame.players);
-			fflush(stdin);
+			thegame.players = getchar() - 48;
+			inflush();
 		} else {
 			thegame.players = getch_(1) - 48;
 			if(thegame.players != -38) printf("\n");
@@ -188,8 +192,8 @@ void whatside(void) {
 	do {
 		printf("X or O? ");
 		if(!nocr) {
-			scanf("%c", &ch);
-			fflush(stdin);
+			ch = getchar();
+			inflush();
 		} else {
 			ch = getch_(1);
 			if(ch != 10) printf("\n");
@@ -286,8 +290,8 @@ void makemove(enum value player) {
 	do {	
 		printf("Make your move, %s: ", (player == X) ? "X" : "O");
 		if(!nocr) {
-			scanf("%d", &move);
-			fflush(stdin);
+			move = getchar() - 48;
+			inflush();
 		} else {
 			move = getch_(1) - 48;
 			if(move != -38) printf("\n");
@@ -435,8 +439,8 @@ void printwinner(void) {
 	do {
 		printf("Do you want to play again? ");
 		if(!nocr) {
-			scanf("%c", &yn);
-			fflush(stdin);
+			yn = getchar();
+			inflush();
 		} else {
 			yn = getch_(1);
 			if(yn != 10) printf("\n");
