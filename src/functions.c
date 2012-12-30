@@ -156,9 +156,7 @@ void bake_args(int argc, char *argv[]) {
 } /* bake_args() */
 
 void cleargame(void) {
-	int i;
-	
-	for(i = 0; i < 9; i++) {
+	for(int i = 0; i < 9; i++) {
 		thegame.board[i].position = i+1;
 		thegame.board[i].state = NONE;
 	}
@@ -205,7 +203,7 @@ void wargames(void) {
 } /* wargames() */
 
 void printboard(bool nums) {
-	int i, j, cur;
+	int cur;
 
 	/* Normal board layout:
 	 *
@@ -229,9 +227,9 @@ void printboard(bool nums) {
 	clearscr();
 	if(!classicf) printf("+---+---+---+\n");
 	else printf("\n");
-	for(i = 0; i < 3; i++) {
+	for(int i = 0; i < 3; i++) {
 		if(classicf) printf(" ");	
-		for(j = 0; j < 3; j++) {
+		for(int j = 0; j < 3; j++) {
 			cur = (i * 3) + j;
 			if(thegame.board[cur].state == NONE) {
 				if(!classicf) {
@@ -304,7 +302,6 @@ bool equal(int a, int b, int c) {
 
 bool checkwinner(void) {
 	bool eog = true; /* Assume end of game */
-	int i;
 	
 	/* 
 	 * 1 2 3
@@ -339,7 +336,7 @@ bool checkwinner(void) {
 	EQUAL(2,4,6);
 	
 	/* check for ties*/
-	else for(i = 0; i < 9 && eog; i++) if(thegame.board[i].state == NONE) eog = false;
+	else for(int i = 0; i < 9 && eog; i++) if(thegame.board[i].state == NONE) eog = false;
 	
 	thegame.running = !eog;
 	return eog;
@@ -410,7 +407,12 @@ void compmove(enum value ai) {
 	ONE_WAY(2,4,6,-ai);
 	
 	else if(thegame.board[4].state == NONE) pos = 4; /* Always go for the centre square, if you can't block off the player or win */
-	else while(thegame.board[(pos = cyrand(0,9))].state != NONE); /* TODO: don't use a while loop, it is REALLY laggy */
+	else {
+		int min = 8, max = 0;
+		for(int i = 0; i < 9; i++) if(thegame.board[i].state == NONE) max = i;
+		for(int i = 8; i >= 0; i--) if(thegame.board[i].state == NONE) min = i;
+		while(thegame.board[(pos = cyrand(min,max))].state != NONE);
+	}
 	
 	/* My move, poor mortal */
 	thegame.board[pos].state = ai;
