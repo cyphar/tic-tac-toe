@@ -169,12 +169,14 @@ void cleargame(void) {
 void initgame(void) {
 	clearscr();
 	do {
-		do {
-			printf("How many players? ");
+		printf("How many players? ");
+		if(!nocr) {
+			scanf("%d", &thegame.players);
 			fflush(stdin);
-		} while((thegame.players = getch_(1) - 48) == -38);
-		if(!nocr) while(getch() != 10);
-		printf("\n");
+		} else {
+			thegame.players = getch_(1) - 48;
+			if(thegame.players != -38) printf("\n");
+		}
 	} while(thegame.players > 2 || thegame.players < 0); /* < 0 is intentional, for a WarGames quote */
 
 } /* initgame() */
@@ -184,13 +186,16 @@ void whatside(void) {
 
 	clearscr();
 	do {
-		do {
-			printf("X or O? ");
-		} while((ch = getch_(1)) == 10);
-		if(!nocr) while(getch() != 10);
-		printf("\n");
+		printf("X or O? ");
+		if(!nocr) {
+			scanf("%c", &ch);
+			fflush(stdin);
+		} else {
+			ch = getch_(1);
+			if(ch != 10) printf("\n");
+		}
 	} while(lowerch(ch) != 'x' && lowerch(ch) != 'o');
-	player = (ch == 'x') ? X : O;
+	player = (lowerch(ch) == 'x') ? X : O;
 }
 
 void wargames(void) {
@@ -279,12 +284,14 @@ void printboard(bool nums) {
 void makemove(enum value player) {
 	int move;
 	do {	
-		do {
-			printf("Make your move, %s: ", (player == X) ? "X" : "O");
+		printf("Make your move, %s: ", (player == X) ? "X" : "O");
+		if(!nocr) {
+			scanf("%d", &move);
 			fflush(stdin);
-		} while((move = (int) getch_(1) - 48) == -38);
-		if(!nocr) while(getch() != 10);
-		printf("\n");	
+		} else {
+			move = getch_(1) - 48;
+			if(move != -38) printf("\n");
+		}
 	} while(move > 9 || move < 1 || thegame.board[move - 1].state != NONE);
 
 	thegame.board[move - 1].state = player;
@@ -426,12 +433,14 @@ void printwinner(void) {
 	else printf("%s wins.\n", (thegame.winner == X) ? "X" : "O");
 
 	do {
-		do {
-			printf("Do you want to play again? ");
+		printf("Do you want to play again? ");
+		if(!nocr) {
+			scanf("%c", &yn);
 			fflush(stdin);
-		} while((yn = getch_(1)) == 10);
-		if(!nocr) while(getch() != 10);
-		printf("\n");
+		} else {
+			yn = getch_(1);
+			if(yn != 10) printf("\n");
+		}
 	} while(lowerch(yn) != 'y' && lowerch(yn) != 'n');
 
 	if(yn == 'y') thegame.restart= true;
