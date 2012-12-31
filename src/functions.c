@@ -25,7 +25,7 @@
 #include <stdbool.h>	/* bool	*/
 #include <termios.h>	/* getch() stuff */
 
-#include "../include/ttt.h"
+#include "ttt.h"
 
 #define ANSI_COLOUR_GREEN	"\e[1;32m"
 #define WARGAMES		"\e[1;96m"

@@ -17,7 +17,7 @@
  *
  */
 
-#include "../include/ttt.h"
+#include "ttt.h"
 
 struct game thegame;
 enum value player;

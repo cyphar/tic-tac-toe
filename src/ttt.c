@@ -18,10 +18,10 @@
  */
 
 /* A STRANGE GAME.
- * THE ONLY WINNING MOVE IS NOT TO PLAY */
+ * THE ONLY WINNING MOVE IS NOT TO PLAY. */
 
 #include <stdio.h>
-#include "../include/ttt.h"
+#include "ttt.h"
 
 #include <unistd.h>
 #include <time.h>
