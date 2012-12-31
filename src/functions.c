@@ -29,7 +29,7 @@
 #include "../include/ttt.h"
 
 #define ANSI_COLOUR_GREEN	"\e[1;32m"
-#define ANSI_COLOUR_BLUE	"\e[1;34m"
+#define WARGAMES		"\e[1;96m"
 #define ANSI_COLOUR_RED		"\e[1;31m"
 #define ANSI_COLOUR_RESET	"\e[0m"
 
@@ -94,8 +94,7 @@ int cyrand(unsigned int min, unsigned int max) {
 	if(min == max) return min;	
 	/* seed the random */
 	srand(time(NULL));
-	int base_random = rand(); /* in [0, RAND_MAX] */
-	if (RAND_MAX == base_random) return cyrand(min, max);
+	int base_random = rand() - 1;
 	/* now guaranteed to be in [0, RAND_MAX) */
 	int range	= max - min,
 	remainder	= RAND_MAX % range,
@@ -203,7 +202,7 @@ void whatside(void) {
 }
 
 void wargames(void) {
-	holler(	colour ? ANSI_COLOUR_BLUE : "",
+	holler(	colour ? WARGAMES : "",
 		"\n",
 		"A STRANGE GAME.\n",
 		"THE ONLY WINNING MOVE IS NOT TO PLAY.\n",
