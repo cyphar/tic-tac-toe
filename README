@@ -4,9 +4,10 @@ Tic Tac Toe
 A strange game.
 The only winning move is not to play.
 
+
 Options
 -------
-The command-line options and their discriptions can be found in the HELP file in the base directory of this project.
+The command-line options and their descriptions can be found in the HELP file in the base directory of this project.
 
 License
 -------
