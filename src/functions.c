@@ -414,10 +414,22 @@ void compmove(enum value ai) {
 	ONE_WAY(2,4,6,-ai);
 	
 	else if(thegame.board[4].state == NONE) pos = 4; /* Always go for the centre square, if you can't block off the player or win */
+
+	/* Corners are a far better bet than edges ...
+	 * ... testing suggests that most comp losses are the result of edge moves. */
+
+	else if(thegame.board[0].state == NONE || 
+		thegame.board[2].state == NONE ||
+		thegame.board[6].state == NONE ||
+		thegame.board[8].state == NONE) while(thegame.board[(pos = cyrand(0,4) * 2)].state != NONE);
+	
+	/* Worst case scenario - go for edges */
+
 	else {
 		int min = 8, max = 0;
 		for(int i = 0; i < 9; i++) if(thegame.board[i].state == NONE) max = i; /* Dial down the random range ... */
 		for(int i = 8; i >= 0; i--) if(thegame.board[i].state == NONE) min = i; /* ... to make it more efficient */
+		
 		while(thegame.board[(pos = cyrand(min,max))].state != NONE);
 	}
 	
