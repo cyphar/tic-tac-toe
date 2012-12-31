@@ -23,7 +23,13 @@
 #include <stdio.h>
 #include "../include/ttt.h"
 
+#include <unistd.h>
+#include <time.h>
+#include <stdlib.h>
+
 int main(int argc, char *argv[]) {
+	/* Seed randomness. */
+	srand(time(NULL) * getpid());
 	bake_args(argc, argv);
 	initgame();
 	if(thegame.players == 0) wargames();

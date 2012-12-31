@@ -19,12 +19,11 @@
 
 #include <stdio.h>	/* fprintf(), printf() */
 #include <stdarg.h>	/* va_list, va_*() */
-#include <stdlib.h>	/* exit() */
+#include <stdlib.h>	/* exit(), srand(), rand() */
 #include <getopt.h>	/* getopt_long() */
 
 #include <stdbool.h>	/* bool	*/
 #include <termios.h>	/* getch() stuff */
-#include <time.h>	/* time() */
 
 #include "../include/ttt.h"
 
@@ -90,22 +89,12 @@ char getch_(int echo)
 #define getch() getch_(0)
 
 int cyrand(unsigned int min, unsigned int max) { 
-	/* Adapted from http://bit.ly/12Q9eQT */
+	int r;
 	if(min == max) return min;	
-	/* seed the random */
-	srand(time(NULL));
-	int base_random = rand() - 1;
-	/* now guaranteed to be in [0, RAND_MAX) */
-	int range	= max - min,
-	remainder	= RAND_MAX % range,
-	bucket		= RAND_MAX / range;
-	/* There are range buckets, plus one smaller interval
-	 *	within remainder of RAND_MAX */
-	if (base_random < RAND_MAX - remainder) {
-	 	return min + base_random/bucket;
-	} else {
-		return cyrand(min, max);
-	}
+	
+	r = (int) (1.0 * (max + 1.0) * rand() / (RAND_MAX + min + 0.0));
+	
+	return r;		
 } /* cyrand() */
 
 char lowerch(char ch) {
