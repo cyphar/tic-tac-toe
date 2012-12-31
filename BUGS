@@ -1,0 +1,3 @@
+Playing as X against AI:
+
+	=> (1-9-7-4) or (1-9-3-6) seems to always cause the AI to lose, due to "force corner" logic.

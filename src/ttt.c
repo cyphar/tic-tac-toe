@@ -29,7 +29,8 @@
 
 int main(int argc, char *argv[]) {
 	/* Seed randomness. */
-	srand(time(NULL) * getpid());
+	srand(time(NULL) ^ getpid());
+	
 	bake_args(argc, argv);
 	initgame();
 	do {
