@@ -59,6 +59,7 @@ void printboard(bool);
 bool checkwinner(void);
 
 void printwinner(void);
+void restart(void);
 
 /* Globals */
 extern struct game thegame; /* (which you just lost) */

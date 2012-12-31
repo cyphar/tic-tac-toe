@@ -32,15 +32,18 @@ int main(int argc, char *argv[]) {
 	srand(time(NULL) * getpid());
 	bake_args(argc, argv);
 	initgame();
-	if(thegame.players == 0) wargames();
 	do {
 		if(thegame.players == 1) whatside();
-		if(thegame.players == 2) player = X;
+		else player = X;
 		thegame.restart = false;
 		cleargame();
-		
 		while(thegame.running) {
-			if(thegame.players == 1) {
+			if(thegame.players == 0) {
+				printboard(false);
+				compmove(player);
+				if(checkwinner()) break;
+				compmove(-player);
+			} else if(thegame.players == 1) {
 				if(player == X){
 					printboard(true);
 					makemove(player);
@@ -61,8 +64,9 @@ int main(int argc, char *argv[]) {
 			}
 			checkwinner();
 		}
-		
 		printwinner();
+		if(thegame.players != 0) restart();
+		else wargames();
 	} while(thegame.restart);
 	return 0;
 }

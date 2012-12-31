@@ -191,11 +191,19 @@ void whatside(void) {
 }
 
 void wargames(void) {
-	holler(	colour ? WARGAMES : "",
-		"\n",
-		"A STRANGE GAME.\n",
-		"THE ONLY WINNING MOVE IS NOT TO PLAY.\n",
-		colour ? ANSI_COLOUR_RESET : ""); /* WarGames */
+	if(thegame.winner == NONE) {
+		holler(	colour ? WARGAMES : "",
+			"\n",
+			"A STRANGE GAME.\n",
+			"THE ONLY WINNING MOVE IS NOT TO PLAY.\n",
+			colour ? ANSI_COLOUR_RESET : ""); /* WarGames */
+	} else {
+		holler( colour ? WARGAMES : "",
+			"\n",
+			"A STRANGE GAME.\n",
+			"THE ONLY WINNING MOVE IS ... WAIT, WHAT?\n",
+			colour ? ANSI_COLOUR_RESET : "");
+	}
 	exit(0);
 } /* wargames() */
 
@@ -418,12 +426,8 @@ void compmove(enum value ai) {
 
 }
 
-void printwinner(void) {
+void restart(void) {
 	char yn;
-	printboard(false);
-	if(thegame.winner == NONE) printf("Stalemate.\n");
-	else printf("%s wins.\n", (thegame.winner == X) ? "X" : "O");
-
 	do {
 		printf("Do you want to play again? ");
 		if(!nocr) {
@@ -436,4 +440,11 @@ void printwinner(void) {
 	} while(lowerch(yn) != 'y' && lowerch(yn) != 'n');
 
 	if(lowerch(yn) == 'y') thegame.restart= true;
+}
+
+void printwinner(void) {
+	printboard(false);
+	if(thegame.winner == NONE) printf("Stalemate.\n");
+	else printf("%s wins.\n", (thegame.winner == X) ? "X" : "O");
+
 } /* printwinner() */
