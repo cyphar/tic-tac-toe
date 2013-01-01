@@ -15,4 +15,4 @@ The command-line options and their descriptions can be found in the HELP file in
 
 License
 -------
-This project is licensed under the GNU General Public License version 3. More information can be found in the LICENSE file in the base directory of this project.
+This project is licensed under the GNU General Public License version 3. More information can be found [here](https://www.gnu.org/licenses/gpl.html) and in the LICENSE file in the base directory of this project.
