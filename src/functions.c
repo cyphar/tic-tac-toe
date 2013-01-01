@@ -155,6 +155,7 @@ void cleargame(void) {
 	
 	thegame.running = true;
 	thegame.winner = NONE;
+	thegame.moves = 0;
 
 } /* cleargame() */
 
@@ -295,6 +296,7 @@ void makemove(enum value player) {
 	} while(move > 9 || move < 1 || thegame.board[move - 1].state != NONE);
 
 	thegame.board[move - 1].state = player;
+	thegame.moves++;
 } /* makemove() */
 
 bool equal(int a, int b, int c) {
@@ -357,8 +359,8 @@ int oneaway(int a, int b, int c, enum value player) {
 	return -1;
 } /* oneaway() */
 
-void compmove(enum value ai) {
-	int pos, tmp;
+void compmove(enum value ai) {	
+	int pos, tmp, min, max;
 	holler("My move, I believe."); /* To tell the user the program is thinking */
 	
 	/* Do "intelligent" AI choice */
@@ -413,20 +415,22 @@ void compmove(enum value ai) {
 	ONE_WAY(0,4,8,-ai);
 	ONE_WAY(2,4,6,-ai);
 	
-	else if(thegame.board[4].state == NONE) pos = 4; /* Always go for the centre square, if you can't block off the player or win */
+	/* Take inspiration from http://bit.ly/ZRxOCg */
+	
+	/* Second player should go for the centre square first, if player one didn't */
+	else if((ai == O || (ai == X && thegame.moves > 1)) && thegame.board[4].state == NONE) pos = 4;
 
-	/* Corners are a far better bet than edges ...
-	 * ... testing suggests that most comp losses are the result of edge moves. */
-
-	else if(thegame.board[0].state == NONE || 
+	/* Corners are a far better bet for the first player's move than edges or the centre ...
+	 * ... and is a far better bet for player two (if the centre has been already taken) */
+	else if(thegame.moves <= 1 &&
+		(thegame.board[0].state == NONE || 
 		thegame.board[2].state == NONE ||
 		thegame.board[6].state == NONE ||
-		thegame.board[8].state == NONE) while(thegame.board[(pos = cyrand(0,4) * 2)].state != NONE);
+		thegame.board[8].state == NONE)) while(thegame.board[(pos = cyrand(0,4) * 2)].state != NONE && pos != 4);
 	
-	/* Worst case scenario - go for edges */
-
+	/* Worst case scenario - take the novice approach */
 	else {
-		int min = 8, max = 0;
+		min = 8, max = 0;
 		for(int i = 0; i < 9; i++) if(thegame.board[i].state == NONE) max = i; /* Dial down the random range ... */
 		for(int i = 8; i >= 0; i--) if(thegame.board[i].state == NONE) min = i; /* ... to make it more efficient */
 		
@@ -435,6 +439,7 @@ void compmove(enum value ai) {
 	
 	/* My move, poor mortal */
 	thegame.board[pos].state = ai;
+	thegame.moves++;
 
 }
 
