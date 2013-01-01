@@ -5,7 +5,7 @@ LFLAGS	=
 SRCDIR	= src
 HEADDIR	= include
 
-VER	= 
+VER	= 1.0
 SRC	= $(SRCDIR)/ttt.c $(SRCDIR)/functions.c $(SRCDIR)/globals.c
 DEPS	= $(SRCDIR)/ttt.h
 EXEC	= tictactoe
