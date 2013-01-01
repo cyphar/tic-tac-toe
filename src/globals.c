@@ -21,3 +21,4 @@
 
 struct game thegame;
 enum value player;
+const char *TTT_VERSION = __TTT_VERSION__; /* Baked during compile-time */

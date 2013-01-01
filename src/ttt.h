@@ -65,3 +65,5 @@ void restart(void);
 /* Globals */
 extern struct game thegame; /* (which you just lost) */
 extern enum value player;
+
+extern const char *TTT_VERSION; /* Baked during compile-time */

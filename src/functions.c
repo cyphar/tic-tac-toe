@@ -161,6 +161,7 @@ void cleargame(void) {
 
 void initgame(void) {
 	clearscr();
+	printf("Tic-Tac-Toe (version %s) by cyphar\n--\n", TTT_VERSION);
 	do {
 		printf("How many players? ");
 		if(!nocr) {
