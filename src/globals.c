@@ -1,5 +1,5 @@
 /* 
- * Tic-Tac-Toe: A non-brute-force implementation of the classic game.
+ * Tic-Tac-Toe: A heuristic implementation of the classic game.
  * Copyright (C) 2012 cyphar <public@cyphar.com>
  *
  * This program is free software: you can redistribute it and/or modify

@@ -7,7 +7,7 @@ The only winning move is not to play.
 
 Description
 -----------
-This implementation of Tic-Tac-Toe features a non-brute-force method of playing the game. Instead of using the "traditional" method (i.e. brute forcing the best move), the AI in this implementation uses an actual strategy to play.
+This implementation of Tic-Tac-Toe uses a heuristic strategy to effectively play the game. Instead of using the "traditional" method (i.e. brute forcing the best move), the AI in this implementation uses an actual strategy to play.
 
 Options
 -------
