@@ -146,6 +146,9 @@ void bake_args(int argc, char *argv[]) {
 			case 'p':
 				print = true;
 				break;
+			case '?':
+				exit(1);
+				break;
 			default:
 				break;
 		}	
