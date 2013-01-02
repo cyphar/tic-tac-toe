@@ -1,6 +1,7 @@
 OPTIONS
 -------
--w, --nowait	Do not wait for enter after input.
--c, --nocolor	Do not use colours.
--n, --nonum	Disable number printing in fields.
--f, --classic	Use the "classic" tic-tac-toe board layout.
+-w, --nowait		Do not wait for enter after input.
+-c, --nocolor		Do not use colours.
+-n, --nonum		Disable number printing in fields.
+-p, --printmoves	At the end of each game, print a list of all the moves each player made.
+-f, --classic		Use the "classic" tic-tac-toe board layout.
