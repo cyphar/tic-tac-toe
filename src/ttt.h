@@ -1,6 +1,6 @@
 /* 
  * Tic-Tac-Toe: A heuristic implementation of the classic game.
- * Copyright (C) 2012 cyphar <public@cyphar.com>
+ * Copyright (C) 2012 Cyphar <public@cyphar.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,11 @@ struct game {
 	bool restart;
 	enum value winner;
 };
+
+void usage(void);
+void syntax(void);
+void version(void);
+void license(void);
 
 void uholler(char *, ...);
 #define holler(...) uholler(__VA_ARGS__, NULL);

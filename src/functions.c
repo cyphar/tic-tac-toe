@@ -1,6 +1,6 @@
 /* 
  * Tic-Tac-Toe: A heuristic implementation of the classic game.
- * Copyright (C) 2012 cyphar <public@cyphar.com>
+ * Copyright (C) 2012 Cyphar <public@cyphar.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,53 @@ bool colour = true;
 bool numon = true;
 bool classicf = false;
 bool print = false;
+
+
+void usage(void){
+	extern char *__progname;
+
+	holler("Usage: ", __progname," [-cfnpw] [-hvl]");
+} /* usage() */
+
+void syntax(void) {
+	usage();
+	holler(	"\n",
+		"Options:\n",
+		"  -c, --nocolor         Disable colours\n",
+		"  -f, --classic         Use the \"classic\" board layout\n",
+		"  -n, --nonum           Disable numbers\n",
+		"  -p, --printmoves      Print a list of moves at end of game\n",
+		"  -w, --nowait          Disable input buffering\n",
+		"\n",
+		"  -h, --help            Show this help screen\n",
+		"  -v, --version         Show version information\n"
+		"  -l, --license         Show license information\n",
+		"\n",
+		"Report bugs to <public@cyphar.com>.");
+} /* syntax() */
+
+void version(void) {
+	printf("Tic-Tac-Toe (version %s) by Cyphar\n", TTT_VERSION);
+} /* version() */
+
+void license(void) {
+	holler(	"Tic-Tac-Toe: A heuristic implementation of the classic game.\n",
+		"Copyright (C) 2012 Cyphar <public@cyphar.com>\n",
+		"\n",
+		"This program is free software: you can redistribute it and/or modify\n",
+		"it under the terms of the GNU General Public License as published by\n",
+		"the Free Software Foundation, either version 3 of the License, or\n",
+		"(at your option) any later version.\n",
+		"\n",
+		"This program is distributed in the hope that it will be useful,\n",
+		"but WITHOUT ANY WARRANTY; without even the implied warranty of\n",
+		"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n",
+		"GNU General Public License for more details.\n",
+		"\n",
+		"You should have received a copy of the GNU General Public License\n",
+		"along with this program.  If not, see <http://www.gnu.org/licenses/>.");
+} /* license() */
+
 
 void uholler(char *msg, ...) {
 	va_list ap;
@@ -111,7 +158,7 @@ void clearscr(void) {
 
 void inflush(void) {
 	while(getchar() != '\n');
-}
+} /* inflush() */
 
 void bake_args(int argc, char *argv[]) {
 	char ch;
@@ -121,16 +168,25 @@ void bake_args(int argc, char *argv[]) {
 	argv[0] = __progname;
 	
 	const struct option getopts[] = {
-		{"nowait",	no_argument,	NULL,		'w'},
-		{"nocolor",	no_argument,	NULL,		'c'},
-		{"nonum",	no_argument,	NULL,		'n'},
-		{"classic",	no_argument,	NULL,		'f'},
-		{"printmoves",	no_argument,	NULL,		'p'},
-		{NULL,		0,		NULL,		0}
+		/* Game Flags*/
+		{"nowait",	no_argument,	NULL,	'w'},
+		{"nocolor",	no_argument,	NULL,	'c'},
+		{"nonum",	no_argument,	NULL,	'n'},
+		{"classic",	no_argument,	NULL,	'f'},
+		{"printmoves",	no_argument,	NULL,	'p'},
+		
+		/* Information */
+		{"help",	no_argument,	NULL,	'h'},
+		{"version",	no_argument,	NULL,	'v'},
+		{"license",	no_argument,	NULL,	'l'},
+		
+		/* Terminate the array */
+		{NULL,		0,		NULL,	0}
 	};
 
-	while((ch = getopt_long(argc, argv, "cfnpw", getopts, &longindex)) != -1) {
+	while((ch = getopt_long(argc, argv, "cfnpw hvl", getopts, &longindex)) != -1) {
 		switch(ch) {
+			/* Game Flags*/
 			case 'w':
 				nocr = true;
 				break;
@@ -146,7 +202,24 @@ void bake_args(int argc, char *argv[]) {
 			case 'p':
 				print = true;
 				break;
+
+			/* Information */
+			case 'h':
+				syntax();
+				exit(0);
+				break;
+			case 'v':
+				version();
+				exit(0);
+				break;
+			case 'l':
+				license();
+				exit(0);
+				break;
+
+			/* Catch-alls */
 			case '?':
+				usage();
 				exit(1);
 				break;
 			default:
@@ -176,7 +249,10 @@ void cleargame(void) {
 
 void initgame(void) {
 	clearscr();
-	printf("Tic-Tac-Toe (version %s) by cyphar\n--\n", TTT_VERSION);
+	
+	version();
+	printf("--\n");
+	
 	do {
 		if(!nocr) {
 			do {
