@@ -33,7 +33,11 @@ struct field {
 struct game {
 	struct field board[9];
 	int players;
+	
+	int xmoves[5];
+	int omoves[4];
 	int moves;
+	
 	bool running;
 	bool restart;
 	enum value winner;

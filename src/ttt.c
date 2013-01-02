@@ -66,8 +66,8 @@ int main(int argc, char *argv[]) {
 			checkwinner();
 		}
 		printwinner();
-		if(thegame.players != 0) restart();
-		else wargames();
+		restart();
 	} while(thegame.restart);
+	if(thegame.players == 0) wargames();
 	return 0;
 }

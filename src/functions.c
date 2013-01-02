@@ -36,6 +36,7 @@ bool nocr = false;
 bool colour = true;
 bool numon = true;
 bool classicf = false;
+bool print = false;
 
 void uholler(char *msg, ...) {
 	va_list ap;
@@ -124,10 +125,11 @@ void bake_args(int argc, char *argv[]) {
 		{"nocolor",	no_argument,	NULL,		'c'},
 		{"nonum",	no_argument,	NULL,		'n'},
 		{"classic",	no_argument,	NULL,		'f'},
+		{"printmoves",	no_argument,	NULL,		'p'},
 		{NULL,		0,		NULL,		0}
 	};
 
-	while((ch = getopt_long(argc, argv, "cfnw", getopts, &longindex)) != -1) {
+	while((ch = getopt_long(argc, argv, "cfnpw", getopts, &longindex)) != -1) {
 		switch(ch) {
 			case 'w':
 				nocr = true;
@@ -141,6 +143,9 @@ void bake_args(int argc, char *argv[]) {
 			case 'f':
 				classicf = true;
 				break;
+			case 'p':
+				print = true;
+				break;
 			default:
 				break;
 		}	
@@ -152,6 +157,13 @@ void cleargame(void) {
 		thegame.board[i].position = i+1;
 		thegame.board[i].state = NONE;
 	}
+	
+	for(int i = 0; i < 4; i++) {
+		thegame.xmoves[i] = -1;
+		thegame.omoves[i] = -1;
+	}
+	
+	thegame.xmoves[4] = -1;
 	
 	thegame.running = true;
 	thegame.winner = NONE;
@@ -303,7 +315,9 @@ void makemove(enum value player) {
 	} while(move > 9 || move < 1 || thegame.board[move - 1].state != NONE);
 
 	thegame.board[move - 1].state = player;
-	thegame.moves++;
+	
+	if(player == X) thegame.xmoves[++thegame.moves / 2] = move;
+	else thegame.omoves[thegame.moves++ / 2] = move;
 } /* makemove() */
 
 bool equal(int a, int b, int c) {
@@ -466,7 +480,8 @@ void compmove(enum value ai) {
 	
 	/* My move, poor mortal */
 	thegame.board[pos].state = ai;
-	thegame.moves++;
+	if(ai == X) thegame.xmoves[++thegame.moves / 2] = pos + 1;
+	else thegame.omoves[thegame.moves++ / 2] = pos + 1;
 
 }
 
@@ -492,5 +507,18 @@ void printwinner(void) {
 	printboard(false);
 	if(thegame.winner == NONE) printf("Stalemate.\n");
 	else printf("%s wins.\n", (thegame.winner == X) ? "X" : "O");
-
+	
+	if(print) {
+		printf("\nX moves: [%d, %d, %d, %d, %d]\n", 
+				thegame.xmoves[0], 
+				thegame.xmoves[1], 
+				thegame.xmoves[2], 
+				thegame.xmoves[3], 
+				thegame.xmoves[4]);
+		printf("O moves: [%d, %d, %d, %d]\n\n",
+				thegame.omoves[0],
+				thegame.omoves[1],
+				thegame.omoves[2],
+				thegame.omoves[3]);
+	}
 } /* printwinner() */
