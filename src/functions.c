@@ -426,6 +426,26 @@ void compmove(enum value ai) {
 	
 	/* Second player should go for the centre square first, if player one didn't */
 	else if((ai == O || (ai == X && thegame.moves > 1)) && thegame.board[4].state == NONE) pos = 4;
+	
+	/* Player two MUST go for an edge as their second move if the other player has ...
+	 * ... gone for at least ONE corner (or else they can be beaten easily, by only attacking corners or edges) */
+	else if(thegame.moves == 3 &&
+			(thegame.board[1].state == NONE ||
+			thegame.board[3].state == NONE ||
+			thegame.board[5].state == NONE ||
+			thegame.board[7].state == NONE) &&
+			(thegame.board[0].state == -ai ||
+			 thegame.board[2].state == -ai ||
+			 thegame.board[6].state == -ai ||
+			 thegame.board[8].state == -ai)) while(thegame.board[(pos = (cyrand(0,3) * 2) + 1)].state != NONE);
+
+	else if(thegame.moves == 3 &&
+			(thegame.board[1].state == NONE ||
+			thegame.board[3].state == NONE ||
+			thegame.board[5].state == NONE ||
+			thegame.board[7].state == NONE)) while(thegame.board[(pos = cyrand(0,4) * 2)].state != NONE);
+
+			/* TODO: Make it go for the corner between the two edges, not a random corner */
 
 	/* Corners are a far better bet for the first player's move than edges or the centre ...
 	 * ... and is a far better bet for player two (if the centre has been already taken) */
