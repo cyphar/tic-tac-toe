@@ -163,11 +163,13 @@ void initgame(void) {
 	clearscr();
 	printf("Tic-Tac-Toe (version %s) by cyphar\n--\n", TTT_VERSION);
 	do {
-		printf("How many players? ");
 		if(!nocr) {
-			thegame.players = getchar() - 48;
+			do {
+				printf("How many players? ");
+			} while((thegame.players = getchar() - 48) == -38);
 			inflush();
 		} else {
+			printf("How many players? ");
 			thegame.players = getch_(1) - 48;
 			if(thegame.players != -38) printf("\n");
 		}
@@ -180,11 +182,13 @@ void whatside(void) {
 
 	clearscr();
 	do {
-		printf("X or O? ");
 		if(!nocr) {
-			ch = getchar();
+			do {
+				printf("X or O? ");
+			} while((ch = getchar()) == 10);
 			inflush();
 		} else {
+			printf("X or O? ");
 			ch = getch_(1);
 			if(ch != 10) printf("\n");
 		}
@@ -286,11 +290,13 @@ void printboard(bool nums) {
 void makemove(enum value player) {
 	int move;
 	do {	
-		printf("Make your move, %s: ", (player == X) ? "X" : "O");
 		if(!nocr) {
-			move = getchar() - 48;
+			do {
+				printf("Make your move, %s: ", (player == X) ? "X" : "O");
+			} while((move = getchar() - 48) == -38);
 			inflush();
 		} else {
+			printf("Make your move, %s: ", (player == X) ? "X" : "O");
 			move = getch_(1) - 48;
 			if(move != -38) printf("\n");
 		}
@@ -447,11 +453,13 @@ void compmove(enum value ai) {
 void restart(void) {
 	char yn;
 	do {
-		printf("Do you want to play again? ");
 		if(!nocr) {
-			yn = getchar();
+			do {
+				printf("Do you want to play again? ");
+			} while((yn = getchar()) == 10);
 			inflush();
 		} else {
+			printf("Do you want to play again? ");
 			yn = getch_(1);
 			if(yn != 10) printf("\n");
 		}
