@@ -142,12 +142,8 @@ char getch_(int echo)
 #define getch() getch_(0)
 
 int cyrand(unsigned int min, unsigned int max) { 
-	int r;
 	if(min == max) return min;	
-	
-	r = (int) (1.0 * (max + 1.0) * rand() / (RAND_MAX + min + 0.0));
-	
-	return r;		
+	return (int) (1.0 * (max + 1.0) * rand() / (RAND_MAX + min + 0.0));
 } /* cyrand() */
 
 char lowerch(char ch) {
@@ -234,12 +230,13 @@ void bake_args(int argc, char *argv[]) {
 } /* bake_args() */
 
 void cleargame(void) {
-	for(int i = 0; i < 9; i++) {
+	int i;
+	for(i = 0; i < 9; i++) {
 		thegame.board[i].position = i+1;
 		thegame.board[i].state = NONE;
 	}
 	
-	for(int i = 0; i < 4; i++) {
+	for(i = 0; i < 4; i++) {
 		thegame.xmoves[i] = -1;
 		thegame.omoves[i] = -1;
 	}
@@ -310,8 +307,7 @@ void wargames(void) {
 } /* wargames() */
 
 void printboard(bool nums) {
-	int cur;
-
+	
 	/* Normal board layout:
 	 *
 	 * +---+---+---+
@@ -334,9 +330,12 @@ void printboard(bool nums) {
 	clearscr();
 	if(!classicf) printf("+---+---+---+\n");
 	else printf("\n");
-	for(int i = 0; i < 3; i++) {
+	
+	int cur, i, j;
+
+	for(i = 0; i < 3; i++) {
 		if(classicf) printf(" ");	
-		for(int j = 0; j < 3; j++) {
+		for(j = 0; j < 3; j++) {
 			cur = (i * 3) + j;
 			if(thegame.board[cur].state == NONE) {
 				if(!classicf) {
@@ -432,6 +431,7 @@ bool checkwinner(void) {
 	 * 1,5,9
 	 * 3,5,7
 	 */
+	
 	#define IEQUAL(a,b,c) if(equal(a,b,c)) thegame.winner = thegame.board[a].state
 	#define EQUAL(a,b,c) else if(equal(a,b,c)) thegame.winner = thegame.board[a].state
 	
@@ -450,7 +450,10 @@ bool checkwinner(void) {
 	EQUAL(2,4,6);
 	
 	/* check for ties*/
-	else for(int i = 0; i < 9 && eog; i++) if(thegame.board[i].state == NONE) eog = false;
+	else {
+		int i;
+		for(i = 0; i < 9 && eog; i++) if(thegame.board[i].state == NONE) eog = false;
+	}
 	
 	thegame.running = !eog;
 	return eog;
@@ -465,7 +468,7 @@ int oneaway(int a, int b, int c, enum value player) {
 } /* oneaway() */
 
 void compmove(enum value ai) {	
-	int pos, tmp, min, max;
+	int pos, tmp;
 	holler("My move, I believe."); /* To tell the user the program is thinking */
 	
 	/* Do "intelligent" AI choice */
@@ -581,9 +584,9 @@ void compmove(enum value ai) {
 
 	/* Worst case scenario - take the novice approach */
 	else {
-		min = 8, max = 0;
-		for(int i = 0; i < 9; i++) if(thegame.board[i].state == NONE) max = i; /* Dial down the random range ... */
-		for(int i = 8; i >= 0; i--) if(thegame.board[i].state == NONE) min = i; /* ... to make it more efficient */
+		int min = 8, max = 0, i;
+		for(i = 0; i < 9; i++) if(thegame.board[i].state == NONE) max = i; /* Dial down the random range ... */
+		for(i = 8; i >= 0; i--) if(thegame.board[i].state == NONE) min = i; /* ... to make it more efficient */
 		
 		while(thegame.board[(pos = cyrand(min,max))].state != NONE);
 	}
