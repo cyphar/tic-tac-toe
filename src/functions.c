@@ -27,6 +27,38 @@
 
 #include "ttt.h"
 
+#define USAGE	"Usage: %s [-cfnpw] [-hvl]\n", __progname
+
+#define SYNTAX	"\n" \
+		"Options:\n" \
+		"  -c, --nocolor         Disable colours\n" \
+		"  -f, --classic         Use the \"classic\" board layout\n" \
+		"  -n, --nonum           Disable numbers\n" \
+		"  -p, --printmoves      Print a list of moves at end of game\n" \
+		"  -w, --nowait          Disable input buffering\n" \
+		"\n" \
+		"  -h, --help            Show this help screen\n" \
+		"  -v, --version         Show version information\n" \
+		"  -l, --license         Show license information\n" \
+		"\n" \
+		"Report bugs to <public@cyphar.com>.\n"
+
+#define LICENSE	"Tic-Tac-Toe: A heuristic implementation of the classic game.\n" \
+		"Copyright (C) 2012 Cyphar <public@cyphar.com>\n" \
+		"\n" \
+		"This program is free software: you can redistribute it and/or modify\n" \
+		"it under the terms of the GNU General Public License as published by\n" \
+		"the Free Software Foundation, either version 3 of the License, or\n" \
+		"(at your option) any later version.\n" \
+		"\n" \
+		"This program is distributed in the hope that it will be useful,\n" \
+		"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" \
+		"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" \
+		"GNU General Public License for more details.\n" \
+		"\n" \
+		"You should have received a copy of the GNU General Public License\n" \
+		"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
+
 #define ANSI_COLOUR_GREEN	"\e[1;32m"
 #define WARGAMES		"\e[1;96m"
 #define ANSI_COLOUR_RED		"\e[1;31m"
@@ -41,25 +73,12 @@ bool print = false;
 
 void usage(void){
 	extern char *__progname;
-
-	holler("Usage: ", __progname," [-cfnpw] [-hvl]");
+	printf(USAGE);
 } /* usage() */
 
 void syntax(void) {
 	usage();
-	holler(	"\n",
-		"Options:\n",
-		"  -c, --nocolor         Disable colours\n",
-		"  -f, --classic         Use the \"classic\" board layout\n",
-		"  -n, --nonum           Disable numbers\n",
-		"  -p, --printmoves      Print a list of moves at end of game\n",
-		"  -w, --nowait          Disable input buffering\n",
-		"\n",
-		"  -h, --help            Show this help screen\n",
-		"  -v, --version         Show version information\n"
-		"  -l, --license         Show license information\n",
-		"\n",
-		"Report bugs to <public@cyphar.com>.");
+	printf(SYNTAX);
 } /* syntax() */
 
 void version(void) {
@@ -67,21 +86,7 @@ void version(void) {
 } /* version() */
 
 void license(void) {
-	holler(	"Tic-Tac-Toe: A heuristic implementation of the classic game.\n",
-		"Copyright (C) 2012 Cyphar <public@cyphar.com>\n",
-		"\n",
-		"This program is free software: you can redistribute it and/or modify\n",
-		"it under the terms of the GNU General Public License as published by\n",
-		"the Free Software Foundation, either version 3 of the License, or\n",
-		"(at your option) any later version.\n",
-		"\n",
-		"This program is distributed in the hope that it will be useful,\n",
-		"but WITHOUT ANY WARRANTY; without even the implied warranty of\n",
-		"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n",
-		"GNU General Public License for more details.\n",
-		"\n",
-		"You should have received a copy of the GNU General Public License\n",
-		"along with this program.  If not, see <http://www.gnu.org/licenses/>.");
+	printf(LICENSE);
 } /* license() */
 
 
