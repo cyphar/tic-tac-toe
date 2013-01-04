@@ -147,8 +147,8 @@ int cyrand(unsigned int min, unsigned int max) {
 } /* cyrand() */
 
 char lowerch(char ch) {
-	if (ch > 64 && ch < 91) {
-		return ch + 32;
+	if (ch >= 'A' && ch <= 'Z') {
+		return ch + ('a' - 'A');
 	}
 	return ch;
 } /* lowerch() */
@@ -259,12 +259,12 @@ void initgame(void) {
 		if(!nocr) {
 			do {
 				printf("How many players? ");
-			} while((thegame.players = getchar() - 48) == -38);
+			} while((thegame.players = getchar() - '0') == '\n' - '0');
 			inflush();
 		} else {
 			printf("How many players? ");
-			thegame.players = getch_(1) - 48;
-			if(thegame.players != -38) printf("\n");
+			thegame.players = getch_(1) - '0';
+			if(thegame.players != '\n' - '0') printf("\n");
 		}
 	} while(thegame.players > 2 || thegame.players < 0); /* < 0 is intentional, for a WarGames quote */
 
@@ -278,12 +278,12 @@ void whatside(void) {
 		if(!nocr) {
 			do {
 				printf("X or O? ");
-			} while((ch = getchar()) == 10);
+			} while((ch = getchar()) == '\n');
 			inflush();
 		} else {
 			printf("X or O? ");
 			ch = getch_(1);
-			if(ch != 10) printf("\n");
+			if(ch != '\n') printf("\n");
 		}
 	} while(lowerch(ch) != 'x' && lowerch(ch) != 'o');
 	player = (lowerch(ch) == 'x') ? X : O;
@@ -388,12 +388,12 @@ void makemove(enum value player) {
 		if(!nocr) {
 			do {
 				printf("Make your move, %s: ", (player == X) ? "X" : "O");
-			} while((move = getchar() - 48) == -38);
+			} while((move = getchar() - '0') == '\n' - '0');
 			inflush();
 		} else {
 			printf("Make your move, %s: ", (player == X) ? "X" : "O");
-			move = getch_(1) - 48;
-			if(move != -38) printf("\n");
+			move = getch_(1) - '0';
+			if(move != '\n' - '0') printf("\n");
 		}
 	} while(move > 9 || move < 1 || thegame.board[move - 1].state != NONE);
 
@@ -604,12 +604,12 @@ void restart(void) {
 		if(!nocr) {
 			do {
 				printf("Do you want to play again? ");
-			} while((yn = getchar()) == 10);
+			} while((yn = getchar()) == '\n');
 			inflush();
 		} else {
 			printf("Do you want to play again? ");
 			yn = getch_(1);
-			if(yn != 10) printf("\n");
+			if(yn != '\n') printf("\n");
 		}
 	} while(lowerch(yn) != 'y' && lowerch(yn) != 'n');
 
