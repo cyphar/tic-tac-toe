@@ -1,6 +1,6 @@
 /* 
  * Tic-Tac-Toe: A heuristic implementation of the classic game.
- * Copyright (C) 2012 Cyphar <public@cyphar.com>
+ * Copyright (C) 2013 Cyphar <public@cyphar.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 		"Report bugs to <public@cyphar.com>.\n"
 
 #define LICENSE	"Tic-Tac-Toe: A heuristic implementation of the classic game.\n" \
-		"Copyright (C) 2012 Cyphar <public@cyphar.com>\n" \
+		"Copyright (C) 2013 Cyphar <public@cyphar.com>\n" \
 		"\n" \
 		"This program is free software: you can redistribute it and/or modify\n" \
 		"it under the terms of the GNU General Public License as published by\n" \

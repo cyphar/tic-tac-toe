@@ -11,4 +11,4 @@ This implementation of Tic-Tac-Toe uses a heuristic strategy to effectively play
 
 License
 -------
-This project is Copyright &copy; Cyphar 2012 and is licensed under the GNU General Public License version 3. More information can be found [here](https://www.gnu.org/licenses/gpl.html) and in the LICENSE file in the base directory of this project.
+This project is Copyright &copy; Cyphar 2013 and is licensed under the GNU General Public License version 3. More information can be found [here](https://www.gnu.org/licenses/gpl.html) and in the LICENSE file in the base directory of this project.
