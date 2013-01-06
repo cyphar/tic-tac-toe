@@ -1,5 +1,7 @@
 Tic Tac Toe
 ===========
+[![Build Status](https://travis-ci.org/cyphar/tic-tac-toe.png)](https://travis-ci.org/cyphar/tic-tac-toe)
+
 ```
 A strange game.
 The only winning move is not to play.
