@@ -43,11 +43,6 @@ struct game {
 	enum value winner;
 };
 
-void usage(void);
-void syntax(void);
-void version(void);
-void license(void);
-
 void uholler(char *, ...);
 #define holler(...) uholler(__VA_ARGS__, NULL);
 

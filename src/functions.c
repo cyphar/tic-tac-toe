@@ -64,28 +64,27 @@
 #define ANSI_COLOUR_RED		"\e[1;31m"
 #define ANSI_COLOUR_RESET	"\e[0m"
 
-bool nocr = false;
-bool colour = true;
-bool numon = true;
-bool classicf = false;
-bool print = false;
+static bool nocr = false;
+static bool colour = true;
+static bool numon = true;
+static bool classicf = false;
+static bool print = false;
 
-
-void usage(void){
+static void usage(void){
 	extern char *__progname;
 	printf(USAGE);
 } /* usage() */
 
-void syntax(void) {
+static void syntax(void) {
 	usage();
 	printf(SYNTAX);
 } /* syntax() */
 
-void version(void) {
+static void version(void) {
 	printf("Tic-Tac-Toe (version %s) by Cyphar\n", TTT_VERSION);
 } /* version() */
 
-void license(void) {
+static void license(void) {
 	printf(LICENSE);
 } /* license() */
 
@@ -118,7 +117,7 @@ void ubail(char *msg, ...) {
 	exit(1);
 } /* ubail() */
 
-char getch_(int echo) 
+static char getch_(int echo) 
 {
 	char ch;
 	static struct termios old, new;
@@ -141,23 +140,23 @@ char getch_(int echo)
 
 #define getch() getch_(0)
 
-int cyrand(unsigned int min, unsigned int max) { 
+static int cyrand(unsigned int min, unsigned int max) { 
 	if(min == max) return min;	
 	return (int) (1.0 * (max + 1.0) * rand() / (RAND_MAX + min + 0.0));
 } /* cyrand() */
 
-char lowerch(char ch) {
+static char lowerch(char ch) {
 	if (ch >= 'A' && ch <= 'Z') {
 		return ch + ('a' - 'A');
 	}
 	return ch;
 } /* lowerch() */
 
-void clearscr(void) {
+static void clearscr(void) {
 	printf("\e[1;1H\e[2J");
 } /* clearscr() */
 
-void inflush(void) {
+static void inflush(void) {
 	while(getchar() != '\n');
 } /* inflush() */
 
@@ -403,7 +402,7 @@ void makemove(enum value player) {
 	else thegame.omoves[thegame.moves++ / 2] = move;
 } /* makemove() */
 
-bool equal(int a, int b, int c) {
+static bool equal(int a, int b, int c) {
 	/* Basically, if a == b && b == c then a == c */
 	if(thegame.board[a].state == thegame.board[b].state &&
 		thegame.board[b].state == thegame.board[c].state &&
@@ -459,7 +458,7 @@ bool checkwinner(void) {
 	return eog;
 } /* checkwinner() */
 
-int oneaway(int a, int b, int c, enum value player) {
+static int oneaway(int a, int b, int c, enum value player) {
 	if(thegame.board[b].state == thegame.board[c].state && thegame.board[a].state == NONE && thegame.board[b].state == player) return a;
 	else if(thegame.board[c].state == thegame.board[a].state && thegame.board[b].state == NONE && thegame.board[c].state == player) return b;
 	else if(thegame.board[a].state == thegame.board[b].state && thegame.board[c].state == NONE && thegame.board[a].state == player) return c;
