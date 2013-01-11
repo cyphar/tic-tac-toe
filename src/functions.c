@@ -29,7 +29,8 @@
 
 #define USAGE	"Usage: %s [-cfnpw] [-hvl]\n", __progname
 
-#define SYNTAX	"\n" \
+#define SYNTAX	"Usage: %s [options]\n" \
+		"\n" \
 		"Options:\n" \
 		"  -c, --nocolor         Disable colours\n" \
 		"  -f, --classic         Use the \"classic\" board layout\n" \
@@ -41,7 +42,7 @@
 		"  -v, --version         Show version information\n" \
 		"  -l, --license         Show license information\n" \
 		"\n" \
-		"Report bugs to <public@cyphar.com>.\n"
+		"Report bugs to <public@cyphar.com>.\n", __progname
 
 #define LICENSE	"Tic-Tac-Toe: A heuristic implementation of the classic game.\n" \
 		"Copyright (C) 2013 Cyphar <public@cyphar.com>\n" \
@@ -76,7 +77,7 @@ static void usage(void){
 } /* usage() */
 
 static void syntax(void) {
-	usage();
+	extern char *__progname;
 	printf(SYNTAX);
 } /* syntax() */
 
