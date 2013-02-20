@@ -25,6 +25,7 @@
 #include <stdarg.h>	/* va_list, va_*() */
 #include <stdlib.h>	/* exit(), srand(), rand() */
 #include <getopt.h>	/* getopt_long() */
+#include <ctype.h>	/* tolower() */
 
 #include <stdbool.h>	/* bool	*/
 #include <termios.h>	/* getch() stuff */
@@ -154,13 +155,6 @@ static int cyrand(unsigned int min, unsigned int max) {
 	if(min == max) return min;	
 	return (int) (1.0 * (max + 1.0) * rand() / (RAND_MAX + min + 0.0));
 } /* cyrand() */
-
-static char lowerch(char ch) {
-	if (ch >= 'A' && ch <= 'Z') {
-		return ch + ('a' - 'A');
-	}
-	return ch;
-} /* lowerch() */
 
 static void clearscr(void) {
 	printf("\e[1;1H\e[2J");
@@ -294,8 +288,9 @@ void whatside(void) {
 			ch = getch_(1);
 			if(ch != '\n') printf("\n");
 		}
-	} while(lowerch(ch) != 'x' && lowerch(ch) != 'o');
-	player = (lowerch(ch) == 'x') ? X : O;
+		ch = tolower(ch);
+	} while(ch != 'x' && ch != 'o');
+	player = (ch == 'x') ? X : O;
 }
 
 void wargames(void) {
@@ -620,9 +615,10 @@ void restart(void) {
 			yn = getch_(1);
 			if(yn != '\n') printf("\n");
 		}
-	} while(lowerch(yn) != 'y' && lowerch(yn) != 'n');
+		yn = tolower(yn);
+	} while(yn != 'y' && yn != 'n');
 
-	if(lowerch(yn) == 'y') thegame.restart= true;
+	if(yn == 'y') thegame.restart= true;
 }
 
 void printwinner(void) {
