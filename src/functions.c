@@ -539,26 +539,22 @@ void compmove(enum value ai) {
 		thegame.board[2].state == NONE ||
 		thegame.board[6].state == NONE ||
 		thegame.board[8].state == NONE)) while(thegame.board[(pos = cyrand(0,4) * 2)].state != NONE && pos != 4);
+
+	/* Block corner-only tactics */
+
+	else if(thegame.board[0].state == -ai &&
+		thegame.board[8].state == -ai &&
+		(thegame.board[1].state == NONE ||
+		 thegame.board[3].state == NONE ||
+		 thegame.board[5].state == NONE ||
+		 thegame.board[7].state == NONE)) while(thegame.board[(pos = (cyrand(1,4) * 2) - 1)].state != NONE);
 	
-	/* Player two MUST go for an edge as their second move if the other player has ...
-	 * ... gone for at least ONE corner (or else they can be beaten easily, by only attacking corners or edges) */
-	else if(((ai == O && thegame.moves == 3) || (ai == X && thegame.moves == 4)) &&
-			(thegame.board[1].state == NONE ||
-			thegame.board[3].state == NONE ||
-			thegame.board[5].state == NONE ||
-			thegame.board[7].state == NONE) &&
-			(thegame.board[0].state == -ai ||
-			 thegame.board[2].state == -ai ||
-			 thegame.board[6].state == -ai ||
-			 thegame.board[8].state == -ai)) while(thegame.board[(pos = (cyrand(0,3) * 2) + 1)].state != NONE);
-
-	else if(((ai == O && thegame.moves == 3) || (ai == X && thegame.moves == 4)) &&
-			(thegame.board[1].state == NONE ||
-			thegame.board[3].state == NONE ||
-			thegame.board[5].state == NONE ||
-			thegame.board[7].state == NONE)) while(thegame.board[(pos = cyrand(0,4) * 2)].state != NONE);
-
-	/* TODO: Make it go for the corner between the two edges, not a random corner */
+	else if(thegame.board[2].state == -ai &&
+		thegame.board[6].state == -ai &&
+		(thegame.board[1].state == NONE ||
+		 thegame.board[3].state == NONE ||
+		 thegame.board[5].state == NONE ||
+		 thegame.board[7].state == NONE)) while(thegame.board[(pos = (cyrand(1,4) * 2) - 1)].state != NONE);
 	
 	/* Have a hand in every pie - ensure that AI has made a move in every column ... */
 	else if(thegame.board[0].state != ai && 
@@ -595,10 +591,14 @@ void compmove(enum value ai) {
 		while(thegame.board[(pos = cyrand(min,max))].state != NONE);
 	}
 	
-	/* My move, poor mortal */
-	thegame.board[pos].state = ai;
-	if(ai == X) thegame.xmoves[++thegame.moves / 2] = pos + 1;
-	else thegame.omoves[thegame.moves++ / 2] = pos + 1;
+	if(thegame.board[pos].state != NONE) { /* Houston, we have a problem. */
+		compmove(ai);
+	} else {
+		/* My move, poor mortal */
+		thegame.board[pos].state = ai;
+		if(ai == X) thegame.xmoves[++thegame.moves / 2] = pos + 1;
+		else thegame.omoves[thegame.moves++ / 2] = pos + 1;
+	}
 
 }
 
