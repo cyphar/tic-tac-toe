@@ -13,8 +13,7 @@ This implementation of Tic-Tac-Toe uses a heuristic strategy to effectively play
 
 License
 -------
-(MIT License)
-
+([MIT Licence](http://opensource.org/licenses/mit-license))
 ```
 Copyright (c) 2012, 2013 Cyphar
 
