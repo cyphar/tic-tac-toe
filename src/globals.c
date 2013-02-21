@@ -10,4 +10,9 @@
 
 struct game thegame;
 enum value player;
+
+#ifndef __TTT_VERSION__
+#define __TTT_VERSION__ "n/a"
+#endif
+
 const char *TTT_VERSION = __TTT_VERSION__; /* Baked during compile-time */
