@@ -55,10 +55,11 @@
 		"OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n" \
 		"SOFTWARE.\n"
 
-#define ANSI_COLOUR_GREEN	"\e[1;32m"
 #define WARGAMES		"\e[1;96m"
-#define ANSI_COLOUR_RED		"\e[1;31m"
-#define ANSI_COLOUR_RESET	"\e[0m"
+
+#define COLOUR_X		"\e[1;31m"
+#define COLOUR_O		"\e[1;33m"
+#define COLOUR_RESET		"\e[0m"
 
 static bool nocr = false;
 static bool colour = true;
@@ -284,13 +285,13 @@ void wargames(void) {
 			"\n",
 			"A STRANGE GAME.\n",
 			"THE ONLY WINNING MOVE IS NOT TO PLAY.\n",
-			colour ? ANSI_COLOUR_RESET : ""); /* WarGames */
+			colour ? COLOUR_RESET : ""); /* WarGames */
 	} else {
 		holler( colour ? WARGAMES : "",
 			"\n",
 			"A STRANGE GAME.\n",
 			"THE ONLY WINNING MOVE IS ... WAIT, WHAT?\n",
-			colour ? ANSI_COLOUR_RESET : "");
+			colour ? COLOUR_RESET : "");
 	}
 	exit(0);
 } /* wargames() */
@@ -342,17 +343,17 @@ void printboard(bool nums) {
 			} else {
 				if(!classicf) {
 					if(colour) printf("| %s ", (thegame.board[cur].state == X) ? 
-							ANSI_COLOUR_RED "X" ANSI_COLOUR_RESET : ANSI_COLOUR_GREEN "O" ANSI_COLOUR_RESET);
+							COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
 					else printf("| %s ", (thegame.board[cur].state == X) ? "X" : "O");
 				} else {
 					
 					if(j != 2) { 
 						if(colour) printf(" %s |", (thegame.board[cur].state == X) ? 
-							ANSI_COLOUR_RED "X" ANSI_COLOUR_RESET : ANSI_COLOUR_GREEN "O" ANSI_COLOUR_RESET);
+							COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
 						else printf(" %s |", (thegame.board[cur].state == X) ? "X" : "O");
 					} else {
 						if(colour) printf(" %s ", (thegame.board[cur].state == X) ? 
-							ANSI_COLOUR_RED "X" ANSI_COLOUR_RESET : ANSI_COLOUR_GREEN "O" ANSI_COLOUR_RESET);
+							COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
 						else printf(" %s ", (thegame.board[cur].state == X) ? "X" : "O");
 
 					}
@@ -398,8 +399,6 @@ static bool equal(int a, int b, int c) {
 		thegame.board[b].state == thegame.board[c].state &&
 		thegame.board[a].state != NONE) return true;
 	else return false;
-
-	return NULL; /* If you get up to this, you've got bigger problems */
 } /* equal() */
 
 bool checkwinner(void) {
