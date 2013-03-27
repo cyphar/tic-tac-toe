@@ -1,5 +1,5 @@
 CC	= gcc
-CFLAGS	= -Wall -ansi -O
+CFLAGS	= -Wall -fsigned-char -ansi -O
 LFLAGS	=
 
 SRCDIR	= src
