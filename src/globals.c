@@ -1,4 +1,4 @@
-/* 
+/*
  * Tic-Tac-Toe: A heuristic implementation of the classic game.
  * Copyright (c) 2012, 2013 Cyphar
  *

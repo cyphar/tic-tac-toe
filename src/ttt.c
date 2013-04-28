@@ -1,4 +1,4 @@
-/* 
+/*
  * Tic-Tac-Toe: A heuristic implementation of the classic game.
  * Copyright (c) 2012, 2013 Cyphar
  *
@@ -19,7 +19,7 @@
 int main(int argc, char *argv[]) {
 	/* Seed randomness. */
 	srand(time(NULL) ^ getpid());
-	
+
 	bake_args(argc, argv);
 	initgame();
 	do {
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 				}
 			} else {
 				printboard(true);
-			
+
 				makemove(player);
 				player = -player;
 

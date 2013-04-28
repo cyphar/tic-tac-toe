@@ -1,4 +1,4 @@
-/* 
+/*
  * Tic-Tac-Toe: A heuristic implementation of the classic game.
  * Copyright (c) 2012, 2013 Cyphar
  *
@@ -22,11 +22,11 @@ struct field {
 struct game {
 	struct field board[9];
 	int players;
-	
+
 	int xmoves[5];
 	int omoves[4];
 	int moves;
-	
+
 	bool running;
 	bool restart;
 	enum value winner;

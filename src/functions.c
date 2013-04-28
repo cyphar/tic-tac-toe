@@ -1,4 +1,4 @@
-/* 
+/*
  * Tic-Tac-Toe: A heuristic implementation of the classic game.
  * Copyright (c) 2012, 2013 Cyphar
  *
@@ -103,7 +103,7 @@ void ubail(char *msg, ...) {
 	va_list ap;
 
 	fprintf(stderr, "%s: ", __progname);
-	
+
 	va_start(ap, NULL);
 	do {
 		fprintf(stderr, "%s", msg);
@@ -114,11 +114,11 @@ void ubail(char *msg, ...) {
 	exit(1);
 } /* ubail() */
 
-static char getch_(int echo) 
+static char getch_(int echo)
 {
 	char ch;
 	static struct termios old, new;
-	
+
 	tcgetattr(0, &old); /* grab old terminal i/o settings */
 	new = old; /* make new settings same as old settings */
 	new.c_lflag &= ~ICANON; /* disable buffered i/o */
@@ -127,7 +127,7 @@ static char getch_(int echo)
 
 	ch = getchar();
 	tcsetattr(0, TCSANOW, &old); /* reset terminal i/o settings */
-	
+
 	if(ch == 3) {
 		printf("\n^C\n");
 		exit(2);
@@ -137,8 +137,8 @@ static char getch_(int echo)
 
 #define getch() getch_(0)
 
-static int cyrand(unsigned int min, unsigned int max) { 
-	if(min == max) return min;	
+static int cyrand(unsigned int min, unsigned int max) {
+	if(min == max) return min;
 	return (int) (1.0 * (max + 1.0) * rand() / (RAND_MAX + min + 0.0));
 } /* cyrand() */
 
@@ -153,10 +153,10 @@ static void inflush(void) {
 void bake_args(int argc, char *argv[]) {
 	char ch;
 	int longindex;
-	
+
 	extern char *__progname;
 	argv[0] = __progname;
-	
+
 	const struct option getopts[] = {
 		/* Game Flags*/
 		{"nowait",	no_argument,	NULL,	'w'},
@@ -164,12 +164,12 @@ void bake_args(int argc, char *argv[]) {
 		{"nonum",	no_argument,	NULL,	'n'},
 		{"classic",	no_argument,	NULL,	'f'},
 		{"printmoves",	no_argument,	NULL,	'p'},
-		
+
 		/* Information */
 		{"help",	no_argument,	NULL,	'h'},
 		{"version",	no_argument,	NULL,	'v'},
 		{"license",	no_argument,	NULL,	'l'},
-		
+
 		/* Terminate the array */
 		{NULL,		0,		NULL,	0}
 	};
@@ -214,7 +214,7 @@ void bake_args(int argc, char *argv[]) {
 				break;
 			default:
 				break;
-		}	
+		}
 	};
 } /* bake_args() */
 
@@ -224,14 +224,14 @@ void cleargame(void) {
 		thegame.board[i].position = i+1;
 		thegame.board[i].state = NONE;
 	}
-	
+
 	for(i = 0; i < 4; i++) {
 		thegame.xmoves[i] = -1;
 		thegame.omoves[i] = -1;
 	}
-	
+
 	thegame.xmoves[4] = -1;
-	
+
 	thegame.running = true;
 	thegame.winner = NONE;
 	thegame.moves = 0;
@@ -240,10 +240,10 @@ void cleargame(void) {
 
 void initgame(void) {
 	clearscr();
-	
+
 	version();
 	printf("--\n");
-	
+
 	do {
 		if(!nocr) {
 			do {
@@ -297,7 +297,7 @@ void wargames(void) {
 } /* wargames() */
 
 void printboard(bool nums) {
-	
+
 	/* Normal board layout:
 	 *
 	 * +---+---+---+
@@ -314,17 +314,17 @@ void printboard(bool nums) {
 	 * ---+---+---
 	 *  4 | 5 | 6
 	 * ---+---+---
-	 *  7 | 8 | 9 
+	 *  7 | 8 | 9
 	 *
 	 */
 	clearscr();
 	if(!classicf) printf("+---+---+---+\n");
 	else printf("\n");
-	
+
 	int cur, i, j;
 
 	for(i = 0; i < 3; i++) {
-		if(classicf) printf(" ");	
+		if(classicf) printf(" ");
 		for(j = 0; j < 3; j++) {
 			cur = (i * 3) + j;
 			if(thegame.board[cur].state == NONE) {
@@ -342,17 +342,17 @@ void printboard(bool nums) {
 				}
 			} else {
 				if(!classicf) {
-					if(colour) printf("| %s ", (thegame.board[cur].state == X) ? 
+					if(colour) printf("| %s ", (thegame.board[cur].state == X) ?
 							COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
 					else printf("| %s ", (thegame.board[cur].state == X) ? "X" : "O");
 				} else {
-					
-					if(j != 2) { 
-						if(colour) printf(" %s |", (thegame.board[cur].state == X) ? 
+
+					if(j != 2) {
+						if(colour) printf(" %s |", (thegame.board[cur].state == X) ?
 							COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
 						else printf(" %s |", (thegame.board[cur].state == X) ? "X" : "O");
 					} else {
-						if(colour) printf(" %s ", (thegame.board[cur].state == X) ? 
+						if(colour) printf(" %s ", (thegame.board[cur].state == X) ?
 							COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
 						else printf(" %s ", (thegame.board[cur].state == X) ? "X" : "O");
 
@@ -374,7 +374,7 @@ void printboard(bool nums) {
 
 void makemove(enum value player) {
 	int move;
-	do {	
+	do {
 		if(!nocr) {
 			do {
 				printf("Make your move, %s: ", (player == X) ? "X" : "O");
@@ -388,7 +388,7 @@ void makemove(enum value player) {
 	} while(move > 9 || move < 1 || thegame.board[move - 1].state != NONE);
 
 	thegame.board[move - 1].state = player;
-	
+
 	if(player == X) thegame.xmoves[++thegame.moves / 2] = move;
 	else thegame.omoves[thegame.moves++ / 2] = move;
 } /* makemove() */
@@ -403,8 +403,8 @@ static bool equal(int a, int b, int c) {
 
 bool checkwinner(void) {
 	bool eog = true; /* Assume end of game */
-	
-	/* 
+
+	/*
 	 * 1 2 3
 	 * 4 5 6
 	 * 7 8 9
@@ -419,30 +419,30 @@ bool checkwinner(void) {
 	 * 1,5,9
 	 * 3,5,7
 	 */
-	
+
 	#define IEQUAL(a,b,c) if(equal(a,b,c)) thegame.winner = thegame.board[a].state
 	#define EQUAL(a,b,c) else if(equal(a,b,c)) thegame.winner = thegame.board[a].state
-	
+
 	/* Horizontal */
 	IEQUAL(0,1,2);
 	EQUAL(3,4,5);
 	EQUAL(6,7,8);
-	
+
 	/* Vertical */
 	EQUAL(0,3,6);
 	EQUAL(1,4,7);
 	EQUAL(2,5,8);
-	
+
 	/* Diagonal */
 	EQUAL(0,4,8);
 	EQUAL(2,4,6);
-	
+
 	/* check for ties*/
 	else {
 		int i;
 		for(i = 0; i < 9 && eog; i++) if(thegame.board[i].state == NONE) eog = false;
 	}
-	
+
 	thegame.running = !eog;
 	return eog;
 } /* checkwinner() */
@@ -451,17 +451,17 @@ static int oneaway(int a, int b, int c, enum value player) {
 	if(thegame.board[b].state == thegame.board[c].state && thegame.board[a].state == NONE && thegame.board[b].state == player) return a;
 	else if(thegame.board[c].state == thegame.board[a].state && thegame.board[b].state == NONE && thegame.board[c].state == player) return b;
 	else if(thegame.board[a].state == thegame.board[b].state && thegame.board[c].state == NONE && thegame.board[a].state == player) return c;
-	
+
 	return -1;
 } /* oneaway() */
 
-void compmove(enum value ai) {	
+void compmove(enum value ai) {
 	int pos, tmp;
 	holler("My move, I believe."); /* To tell the user the program is thinking */
-	
+
 	/* Do "intelligent" AI choice */
-	
-	/* 
+
+	/*
 	 * 1 2 3
 	 * 4 5 6
 	 * 7 8 9
@@ -478,19 +478,19 @@ void compmove(enum value ai) {
 	 */
 	#define IONE_WAY(a,b,c,d) if((tmp = oneaway(a,b,c,d)) != -1) pos = tmp
 	#define ONE_WAY(a,b,c,d) else if((tmp = oneaway(a,b,c,d)) != -1) pos = tmp
-	
+
 	/* Always try to win, rather than block off player... */
-	
+
 	/* Horizontal */
 	IONE_WAY(0,1,2,ai);
 	ONE_WAY(3,4,5,ai);
 	ONE_WAY(6,7,8,ai);
-	
+
 	/* Vertical */
 	ONE_WAY(0,3,6,ai);
 	ONE_WAY(1,4,7,ai);
 	ONE_WAY(2,5,8,ai);
-	
+
 	/* Diagonal */
 	ONE_WAY(0,4,8,ai);
 	ONE_WAY(2,4,6,ai);
@@ -501,25 +501,25 @@ void compmove(enum value ai) {
 	ONE_WAY(0,1,2,-ai);
 	ONE_WAY(3,4,5,-ai);
 	ONE_WAY(6,7,8,-ai);
-	
+
 	/* Vertical */
 	ONE_WAY(0,3,6,-ai);
 	ONE_WAY(1,4,7,-ai);
 	ONE_WAY(2,5,8,-ai);
-	
+
 	/* Diagonal */
 	ONE_WAY(0,4,8,-ai);
 	ONE_WAY(2,4,6,-ai);
-	
+
 	/* Take inspiration from http://bit.ly/ZRxOCg */
-	
+
 	/* Second player should go for the centre square first, if player one didn't */
 	else if((ai == O || (ai == X && thegame.moves > 1)) && thegame.board[4].state == NONE) pos = 4;
-	
+
 	/* Corners are a far better bet for the first player's first move than edges or the centre ...
 	 * ... and is a far better bet for player two (if the centre has been already taken) */
 	else if(thegame.moves <= 1 &&
-		(thegame.board[0].state == NONE || 
+		(thegame.board[0].state == NONE ||
 		thegame.board[2].state == NONE ||
 		thegame.board[6].state == NONE ||
 		thegame.board[8].state == NONE)) while(thegame.board[(pos = cyrand(0,4) * 2)].state != NONE && pos != 4);
@@ -532,38 +532,38 @@ void compmove(enum value ai) {
 		 thegame.board[3].state == NONE ||
 		 thegame.board[5].state == NONE ||
 		 thegame.board[7].state == NONE)) while(thegame.board[(pos = (cyrand(1,4) * 2) - 1)].state != NONE);
-	
+
 	else if(thegame.board[2].state == -ai &&
 		thegame.board[6].state == -ai &&
 		(thegame.board[1].state == NONE ||
 		 thegame.board[3].state == NONE ||
 		 thegame.board[5].state == NONE ||
 		 thegame.board[7].state == NONE)) while(thegame.board[(pos = (cyrand(1,4) * 2) - 1)].state != NONE);
-	
+
 	/* Have a hand in every pie - ensure that AI has made a move in every column ... */
-	else if(thegame.board[0].state != ai && 
-		thegame.board[3].state != ai && 
+	else if(thegame.board[0].state != ai &&
+		thegame.board[3].state != ai &&
 		thegame.board[6].state != ai) while(thegame.board[(pos = cyrand(0,2) * 3)].state != NONE);
-	
-	else if(thegame.board[1].state != ai && 
-		thegame.board[4].state != ai && 
+
+	else if(thegame.board[1].state != ai &&
+		thegame.board[4].state != ai &&
 		thegame.board[7].state != ai) while(thegame.board[(pos = 1 + cyrand(0,2) * 3)].state != NONE);
-	
-	else if(thegame.board[2].state != ai && 
-		thegame.board[5].state != ai && 
+
+	else if(thegame.board[2].state != ai &&
+		thegame.board[5].state != ai &&
 		thegame.board[8].state != ai) while(thegame.board[(pos = 2 + cyrand(0,2) * 3)].state != NONE);
 
 	/* ... and every row. */
-	else if(thegame.board[0].state != ai && 
-		thegame.board[1].state != ai && 
+	else if(thegame.board[0].state != ai &&
+		thegame.board[1].state != ai &&
 		thegame.board[2].state != ai) while(thegame.board[(pos = cyrand(0,2))].state != NONE);
-	
-	else if(thegame.board[3].state != ai && 
-		thegame.board[4].state != ai && 
+
+	else if(thegame.board[3].state != ai &&
+		thegame.board[4].state != ai &&
 		thegame.board[5].state != ai) while(thegame.board[(pos = 3 + cyrand(0,2))].state != NONE);
-	
-	else if(thegame.board[6].state != ai && 
-		thegame.board[7].state != ai && 
+
+	else if(thegame.board[6].state != ai &&
+		thegame.board[7].state != ai &&
 		thegame.board[8].state != ai) while(thegame.board[(pos = 6 + cyrand(0,2))].state != NONE);
 
 	/* Worst case scenario - take the novice approach */
@@ -571,10 +571,10 @@ void compmove(enum value ai) {
 		int min = 8, max = 0, i;
 		for(i = 0; i < 9; i++) if(thegame.board[i].state == NONE) max = i; /* Dial down the random range ... */
 		for(i = 8; i >= 0; i--) if(thegame.board[i].state == NONE) min = i; /* ... to make it more efficient */
-		
+
 		while(thegame.board[(pos = cyrand(min,max))].state != NONE);
 	}
-	
+
 	if(thegame.board[pos].state != NONE) { /* Houston, we have a problem. */
 		compmove(ai);
 	} else {
@@ -609,13 +609,13 @@ void printwinner(void) {
 	printboard(false);
 	if(thegame.winner == NONE) printf("Stalemate.\n");
 	else printf("%s wins.\n", (thegame.winner == X) ? "X" : "O");
-	
+
 	if(print) {
-		printf("\nX moves: [%d, %d, %d, %d, %d]\n", 
-				thegame.xmoves[0], 
-				thegame.xmoves[1], 
-				thegame.xmoves[2], 
-				thegame.xmoves[3], 
+		printf("\nX moves: [%d, %d, %d, %d, %d]\n",
+				thegame.xmoves[0],
+				thegame.xmoves[1],
+				thegame.xmoves[2],
+				thegame.xmoves[3],
 				thegame.xmoves[4]);
 		printf("O moves: [%d, %d, %d, %d]\n\n",
 				thegame.omoves[0],
