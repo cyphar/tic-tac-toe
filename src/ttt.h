@@ -6,6 +6,9 @@
  * <http://opensource.org/licenses/mit-license> for more details.
  */
 
+#ifndef __TTT_H__
+#define __TTT_H__
+
 #include <stdbool.h>
 
 enum value {
@@ -60,3 +63,5 @@ extern struct game thegame; /* (which you just lost) */
 extern enum value player;
 
 extern const char *TTT_VERSION; /* Baked during compile-time */
+
+#endif /* __TTT_H__ */
