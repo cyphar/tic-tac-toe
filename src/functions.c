@@ -448,9 +448,20 @@ bool checkwinner(void) {
 } /* checkwinner() */
 
 static int oneaway(int a, int b, int c, enum value player) {
-	if(thegame.board[b].state == thegame.board[c].state && thegame.board[a].state == NONE && thegame.board[b].state == player) return a;
-	else if(thegame.board[c].state == thegame.board[a].state && thegame.board[b].state == NONE && thegame.board[c].state == player) return b;
-	else if(thegame.board[a].state == thegame.board[b].state && thegame.board[c].state == NONE && thegame.board[a].state == player) return c;
+	if(thegame.board[b].state == thegame.board[c].state &&
+	   thegame.board[a].state == NONE &&
+	   thegame.board[b].state == player)
+		return a;
+
+	else if(thegame.board[c].state == thegame.board[a].state &&
+			thegame.board[b].state == NONE &&
+			thegame.board[c].state == player)
+		return b;
+
+	else if(thegame.board[a].state == thegame.board[b].state &&
+			thegame.board[c].state == NONE &&
+			thegame.board[a].state == player)
+		return c;
 
 	return -1;
 } /* oneaway() */
@@ -514,7 +525,9 @@ void compmove(enum value ai) {
 	/* Take inspiration from http://bit.ly/ZRxOCg */
 
 	/* Second player should go for the centre square first, if player one didn't */
-	else if((ai == O || (ai == X && thegame.moves > 1)) && thegame.board[4].state == NONE) pos = 4;
+	else if((ai == O || (ai == X && thegame.moves > 1)) &&
+			thegame.board[4].state == NONE)
+				pos = 4;
 
 	/* Corners are a far better bet for the first player's first move than edges or the centre ...
 	 * ... and is a far better bet for player two (if the centre has been already taken) */
@@ -522,7 +535,8 @@ void compmove(enum value ai) {
 		(thegame.board[0].state == NONE ||
 		thegame.board[2].state == NONE ||
 		thegame.board[6].state == NONE ||
-		thegame.board[8].state == NONE)) while(thegame.board[(pos = cyrand(0,4) * 2)].state != NONE && pos != 4);
+		thegame.board[8].state == NONE))
+			while(thegame.board[(pos = cyrand(0,4) * 2)].state != NONE && pos != 4);
 
 	/* Block corner-only tactics */
 
@@ -531,53 +545,70 @@ void compmove(enum value ai) {
 		(thegame.board[1].state == NONE ||
 		 thegame.board[3].state == NONE ||
 		 thegame.board[5].state == NONE ||
-		 thegame.board[7].state == NONE)) while(thegame.board[(pos = (cyrand(1,4) * 2) - 1)].state != NONE);
+		 thegame.board[7].state == NONE))
+			while(thegame.board[(pos = (cyrand(1,4) * 2) - 1)].state != NONE);
 
 	else if(thegame.board[2].state == -ai &&
 		thegame.board[6].state == -ai &&
 		(thegame.board[1].state == NONE ||
 		 thegame.board[3].state == NONE ||
 		 thegame.board[5].state == NONE ||
-		 thegame.board[7].state == NONE)) while(thegame.board[(pos = (cyrand(1,4) * 2) - 1)].state != NONE);
+		 thegame.board[7].state == NONE))
+			while(thegame.board[(pos = (cyrand(1,4) * 2) - 1)].state != NONE);
 
 	/* Have a hand in every pie - ensure that AI has made a move in every column ... */
 	else if(thegame.board[0].state != ai &&
 		thegame.board[3].state != ai &&
-		thegame.board[6].state != ai) while(thegame.board[(pos = cyrand(0,2) * 3)].state != NONE);
+		thegame.board[6].state != ai)
+			while(thegame.board[(pos = cyrand(0,2) * 3)].state != NONE);
 
 	else if(thegame.board[1].state != ai &&
 		thegame.board[4].state != ai &&
-		thegame.board[7].state != ai) while(thegame.board[(pos = 1 + cyrand(0,2) * 3)].state != NONE);
+		thegame.board[7].state != ai)
+			while(thegame.board[(pos = 1 + cyrand(0,2) * 3)].state != NONE);
 
 	else if(thegame.board[2].state != ai &&
 		thegame.board[5].state != ai &&
-		thegame.board[8].state != ai) while(thegame.board[(pos = 2 + cyrand(0,2) * 3)].state != NONE);
+		thegame.board[8].state != ai)
+			while(thegame.board[(pos = 2 + cyrand(0,2) * 3)].state != NONE);
 
 	/* ... and every row. */
 	else if(thegame.board[0].state != ai &&
 		thegame.board[1].state != ai &&
-		thegame.board[2].state != ai) while(thegame.board[(pos = cyrand(0,2))].state != NONE);
+		thegame.board[2].state != ai)
+			while(thegame.board[(pos = cyrand(0,2))].state != NONE);
 
 	else if(thegame.board[3].state != ai &&
 		thegame.board[4].state != ai &&
-		thegame.board[5].state != ai) while(thegame.board[(pos = 3 + cyrand(0,2))].state != NONE);
+		thegame.board[5].state != ai)
+			while(thegame.board[(pos = 3 + cyrand(0,2))].state != NONE);
 
 	else if(thegame.board[6].state != ai &&
 		thegame.board[7].state != ai &&
-		thegame.board[8].state != ai) while(thegame.board[(pos = 6 + cyrand(0,2))].state != NONE);
+		thegame.board[8].state != ai)
+			while(thegame.board[(pos = 6 + cyrand(0,2))].state != NONE);
 
 	/* Worst case scenario - take the novice approach */
 	else {
 		int min = 8, max = 0, i;
-		for(i = 0; i < 9; i++) if(thegame.board[i].state == NONE) max = i; /* Dial down the random range ... */
-		for(i = 8; i >= 0; i--) if(thegame.board[i].state == NONE) min = i; /* ... to make it more efficient */
+
+		/* Dial down the random range to make it more efficient */
+		for(i = 0; i < 9; i++)
+			if(thegame.board[i].state == NONE)
+				max = i;
+		for(i = 8; i >= 0; i--)
+			if(thegame.board[i].state == NONE)
+				min = i;
 
 		while(thegame.board[(pos = cyrand(min,max))].state != NONE);
 	}
 
-	if(thegame.board[pos].state != NONE) { /* Houston, we have a problem. */
+	if(thegame.board[pos].state != NONE) {
+		/* Houston, we have a problem. */
 		compmove(ai);
-	} else {
+	}
+
+	else {
 		/* My move, poor mortal */
 		thegame.board[pos].state = ai;
 		if(ai == X) thegame.xmoves[++thegame.moves / 2] = pos + 1;

@@ -22,41 +22,66 @@ int main(int argc, char *argv[]) {
 
 	bake_args(argc, argv);
 	initgame();
+
 	do {
-		if(thegame.players == 1) whatside();
-		else player = X;
+		if(thegame.players == 1)
+			whatside();
+		else
+			player = X;
+
 		thegame.restart = false;
 		cleargame();
+
 		while(thegame.running) {
 			if(thegame.players == 0) {
 				printboard(false);
 				compmove(player);
-				if(checkwinner()) break;
+
+				if(checkwinner())
+					break;
+
 				compmove(-player);
-			} else if(thegame.players == 1) {
+			}
+
+			else if(thegame.players == 1) {
 				if(player == X){
 					printboard(true);
 					makemove(player);
-					if(checkwinner()) break;
+
+					if(checkwinner())
+						break;
+
 					compmove(-player);
-				} else {
+				}
+
+				else {
 					compmove(-player);
-					if(checkwinner()) break;
+
+					if(checkwinner())
+						break;
+
 					printboard(true);
 					makemove(player);
 				}
-			} else {
+			}
+
+			else {
 				printboard(true);
 
 				makemove(player);
 				player = -player;
 
 			}
+
 			checkwinner();
 		}
 		printwinner();
 		restart();
 	} while(thegame.restart);
-	if(thegame.players == 0) wargames();
+
+	/* we so funny */
+	if(thegame.players == 0)
+		wargames();
+
 	return 0;
 }
