@@ -386,8 +386,9 @@ void printboard(bool nums) {
 				}
 			}
 		}
+
 		if(!classicf){
-			puts("|\n+---+---+---+\n");
+			puts("|\n+---+---+---+");
 		}
 
 		else {
@@ -678,7 +679,7 @@ void restart(void) {
 	} while(yn != 'y' && yn != 'n');
 
 	if(yn == 'y')
-		thegame.restart= true;
+		thegame.restart = true;
 }
 
 void printwinner(void) {
