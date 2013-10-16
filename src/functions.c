@@ -114,15 +114,13 @@ void ubail(char *msg, ...) {
 	exit(1);
 } /* ubail() */
 
-static char getch_(int echo)
-{
+static char getch(void) {
 	char ch;
 	static struct termios old, new;
 
 	tcgetattr(0, &old); /* grab old terminal i/o settings */
 	new = old; /* make new settings same as old settings */
-	new.c_lflag &= ~ICANON; /* disable buffered i/o */
-	new.c_lflag &= echo ? ECHO : ~ECHO; /* set echo mode */
+	new.c_lflag &= (~ICANON) | ECHO; /* disable buffered i/o and enable echoing */
 	tcsetattr(0, TCSANOW, &new); /* use these new terminal i/o settings now */
 
 	ch = getchar();
@@ -132,10 +130,9 @@ static char getch_(int echo)
 		printf("\n^C\n");
 		exit(2);
 	}
+
 	return ch;
 } /* getch_() */
-
-#define getch() getch_(0)
 
 static int cyrand(unsigned int min, unsigned int max) {
 	if(min == max)
