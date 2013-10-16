@@ -138,7 +138,8 @@ static char getch_(int echo)
 #define getch() getch_(0)
 
 static int cyrand(unsigned int min, unsigned int max) {
-	if(min == max) return min;
+	if(min == max)
+		return min;
 	return (int) (1.0 * (max + 1.0) * rand() / (RAND_MAX + min + 0.0));
 } /* cyrand() */
 
@@ -252,7 +253,7 @@ void initgame(void) {
 			inflush();
 		} else {
 			printf("How many players? ");
-			thegame.players = getch_(1) - '0';
+			thegame.players = getch() - '0';
 			if(thegame.players != '\n' - '0') printf("\n");
 		}
 	} while(thegame.players > 2 || thegame.players < 0); /* < 0 is intentional, for a WarGames quote */
@@ -271,7 +272,7 @@ void whatside(void) {
 			inflush();
 		} else {
 			printf("X or O? ");
-			ch = getch_(1);
+			ch = getch();
 			if(ch != '\n') printf("\n");
 		}
 		ch = tolower(ch);
@@ -318,8 +319,10 @@ void printboard(bool nums) {
 	 *
 	 */
 	clearscr();
-	if(!classicf) printf("+---+---+---+\n");
-	else printf("\n");
+	if(!classicf)
+		puts("+---+---+---+");
+	else
+		puts("");
 
 	int cur, i, j;
 
@@ -329,32 +332,54 @@ void printboard(bool nums) {
 			cur = (i * 3) + j;
 			if(thegame.board[cur].state == NONE) {
 				if(!classicf) {
-					if(nums && numon) printf("| %d ", thegame.board[cur].position);
-					else printf("|   ");
-				} else {
+					if(nums && numon)
+						printf("| %d ", thegame.board[cur].position);
+					else
+						printf("|   ");
+				}
+
+				else {
 					if(nums && numon) {
-						if(j != 2) printf(" %d |", thegame.board[cur].position);
-						else printf(" %d ", thegame.board[cur].position);
-					} else {
-						if(j != 2) printf("   |");
-						else printf("    ");
+						if(j != 2)
+							printf(" %d |", thegame.board[cur].position);
+						else
+							printf(" %d ", thegame.board[cur].position);
+					}
+
+					else {
+						if(j != 2)
+							printf("   |");
+						else
+							printf("    ");
 					}
 				}
-			} else {
+			}
+
+			else {
 				if(!classicf) {
-					if(colour) printf("| %s ", (thegame.board[cur].state == X) ?
-							COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
-					else printf("| %s ", (thegame.board[cur].state == X) ? "X" : "O");
-				} else {
+					if(colour)
+						printf("| %s ", (thegame.board[cur].state == X) ?
+								COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
+					else
+						printf("| %s ", (thegame.board[cur].state == X) ? "X" : "O");
+				}
+
+				else {
 
 					if(j != 2) {
-						if(colour) printf(" %s |", (thegame.board[cur].state == X) ?
-							COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
-						else printf(" %s |", (thegame.board[cur].state == X) ? "X" : "O");
-					} else {
-						if(colour) printf(" %s ", (thegame.board[cur].state == X) ?
-							COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
-						else printf(" %s ", (thegame.board[cur].state == X) ? "X" : "O");
+						if(colour)
+							printf(" %s |", (thegame.board[cur].state == X) ?
+								COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
+						else
+							printf(" %s |", (thegame.board[cur].state == X) ? "X" : "O");
+					}
+
+					else {
+						if(colour)
+							printf(" %s ", (thegame.board[cur].state == X) ?
+								COLOUR_X "X" COLOUR_RESET : COLOUR_O "O" COLOUR_RESET);
+						else
+							printf(" %s ", (thegame.board[cur].state == X) ? "X" : "O");
 
 					}
 
@@ -362,14 +387,18 @@ void printboard(bool nums) {
 			}
 		}
 		if(!classicf){
-			printf("|\n");
-			printf("+---+---+---+\n");
-		} else {
-			printf("\n");
-			if(i != 2) printf(" ---+---+---\n");
+			puts("|\n+---+---+---+\n");
+		}
+
+		else {
+			puts("");
+			if(i != 2)
+				puts(" ---+---+---");
 		}
 	}
-	if(classicf) printf("\n");
+
+	if(classicf)
+		puts("");
 } /* printboard() */
 
 void makemove(enum value player) {
@@ -379,26 +408,32 @@ void makemove(enum value player) {
 			do {
 				printf("Make your move, %s: ", (player == X) ? "X" : "O");
 			} while((move = getchar() - '0') == '\n' - '0');
+
 			inflush();
-		} else {
+		}
+
+		else {
 			printf("Make your move, %s: ", (player == X) ? "X" : "O");
-			move = getch_(1) - '0';
-			if(move != '\n' - '0') printf("\n");
+			move = getch() - '0';
+
+			if(move != '\n' - '0')
+				printf("\n");
 		}
 	} while(move > 9 || move < 1 || thegame.board[move - 1].state != NONE);
 
 	thegame.board[move - 1].state = player;
 
-	if(player == X) thegame.xmoves[++thegame.moves / 2] = move;
-	else thegame.omoves[thegame.moves++ / 2] = move;
+	if(player == X)
+		thegame.xmoves[++thegame.moves / 2] = move;
+	else
+		thegame.omoves[thegame.moves++ / 2] = move;
 } /* makemove() */
 
 static bool equal(int a, int b, int c) {
 	/* Basically, if a == b && b == c then a == c */
-	if(thegame.board[a].state == thegame.board[b].state &&
-		thegame.board[b].state == thegame.board[c].state &&
-		thegame.board[a].state != NONE) return true;
-	else return false;
+	return (thegame.board[a].state == thegame.board[b].state &&
+			thegame.board[b].state == thegame.board[c].state &&
+			thegame.board[a].state != NONE);
 } /* equal() */
 
 bool checkwinner(void) {
@@ -437,10 +472,12 @@ bool checkwinner(void) {
 	EQUAL(0,4,8);
 	EQUAL(2,4,6);
 
-	/* check for ties*/
+	/* check for ties */
 	else {
 		int i;
-		for(i = 0; i < 9 && eog; i++) if(thegame.board[i].state == NONE) eog = false;
+		for(i = 0; i < 9 && eog; i++)
+			if(thegame.board[i].state == NONE)
+				eog = false;
 	}
 
 	thegame.running = !eog;
@@ -487,6 +524,7 @@ void compmove(enum value ai) {
 	 * 1,5,9
 	 * 3,5,7
 	 */
+
 	#define IONE_WAY(a,b,c,d) if((tmp = oneaway(a,b,c,d)) != -1) pos = tmp
 	#define ONE_WAY(a,b,c,d) else if((tmp = oneaway(a,b,c,d)) != -1) pos = tmp
 
@@ -611,8 +649,10 @@ void compmove(enum value ai) {
 	else {
 		/* My move, poor mortal */
 		thegame.board[pos].state = ai;
-		if(ai == X) thegame.xmoves[++thegame.moves / 2] = pos + 1;
-		else thegame.omoves[thegame.moves++ / 2] = pos + 1;
+		if(ai == X)
+			thegame.xmoves[++thegame.moves / 2] = pos + 1;
+		else
+			thegame.omoves[thegame.moves++ / 2] = pos + 1;
 	}
 
 }
@@ -625,15 +665,20 @@ void restart(void) {
 				printf("Do you want to play again? ");
 			} while((yn = getchar()) == '\n');
 			inflush();
-		} else {
+		}
+
+		else {
 			printf("Do you want to play again? ");
-			yn = getch_(1);
-			if(yn != '\n') printf("\n");
+			yn = getch();
+
+			if(yn != '\n')
+				puts("");
 		}
 		yn = tolower(yn);
 	} while(yn != 'y' && yn != 'n');
 
-	if(yn == 'y') thegame.restart= true;
+	if(yn == 'y')
+		thegame.restart= true;
 }
 
 void printwinner(void) {
